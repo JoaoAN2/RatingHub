@@ -36,7 +36,7 @@ model Episodio {
   id_serie        Int
   temporada       Int
   numero_episodio Int
-  id_obra         Int
+  id_obra         Int  @unique
   obra            Obra @relation(fields: [id_obra], references: [id_obra], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([id_serie, temporada, numero_episodio])
@@ -78,7 +78,7 @@ model Obra {
 
 model Serie {
   id_serie Int  @id @default(autoincrement())
-  id_obra  Int
+  id_obra  Int  @unique
   obra     Obra @relation(fields: [id_obra], references: [id_obra], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("serie")

@@ -1,19 +1,19 @@
 import express from 'express';
 import auth from '../../middlewares/auth';
 import validate from '../../middlewares/validate';
-import { obraValidation, obraController } from '../../modules/obra';
+import { filmeValidation, filmeController } from '../../modules/filme';
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('GESTOR'), validate(obraValidation.createObra), obraController.createObra)
-  .get(validate(obraValidation.getObras), obraController.getObras);
+  .post(auth('GESTOR'), validate(filmeValidation.createFilme), filmeController.createFilme)
+  .get(validate(filmeValidation.getFilmes), filmeController.getFilmes);
 
 router
-  .route('/:idObra')
-  .get(validate(obraValidation.getObra), obraController.getObra)
-  .patch(auth('GESTOR'), validate(obraValidation.updateObra), obraController.updateObra)
-  .delete(auth('GESTOR'), validate(obraValidation.deleteObra), obraController.deleteObra);
+  .route('/:idFranquia/:edicao')
+  .get(validate(filmeValidation.getFilme), filmeController.getFilme)
+  .patch(auth('GESTOR'), validate(filmeValidation.updateFilme), filmeController.updateFilme)
+  .delete(auth('GESTOR'), validate(filmeValidation.deleteFilme), filmeController.deleteFilme);
 
 export default router;
