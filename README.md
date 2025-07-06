@@ -6,9 +6,6 @@ Projeto desenvolvido para a disciplina de Banco de Dados: uma REST API para aval
 
 - João Augusto Do Nascimento
 - Allan Custódio Diniz Marques
-- Pedro Henrique Mansano Franzin
-- Luis Felipe Gomes
-- Orlando Seiti Enokida Junior
 
 ## 💡 Sobre o Projeto
 
