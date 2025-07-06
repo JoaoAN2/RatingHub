@@ -1,0 +1,12 @@
+Os primeiros relacionamentos identificados foram: 
+  - Série 1:n Episódio. 
+  - Série 1:n Gênero. 
+  - Filme 1:n Gênero. 
+  - Série 1:n Gestor de Conteúdo. 
+  - Filme 1:n Gestor de Conteúdo. 
+  - Likes de usuário é resultado de uma relação de n:m entre Usuário e 
+  Avaliação. 
+  - Likes de críticos é resultado de uma relação n:m entre crítico e 
+  avaliação 
+  - Avaliação 1:n Crítico ou usuário. 
+  - Avaliação 1:n Episódio, Série ou Episódio.

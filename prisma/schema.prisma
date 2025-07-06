@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Avaliacao {
+  id_obra             Int
+  id_usuario          Int
+  nota                Int
+  comentario          String             @db.VarChar(512)
+  data_hora_avaliacao DateTime?          @default(now()) @db.Timestamp(6)
+  obra                Obra               @relation(fields: [id_obra], references: [id_obra], onDelete: NoAction, onUpdate: NoAction)
+  usuario             Usuario            @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  curtida_avaliacao   CurtidaAvaliacao[]
+
+  @@id([id_obra, id_usuario])
+  @@map("avaliacao")
+}
+
+model CurtidaAvaliacao {
+  id_obra_avaliada     Int
+  id_usuario_avaliador Int
+  id_usuario_curtidor  Int
+  avaliacao            Avaliacao @relation(fields: [id_obra_avaliada, id_usuario_avaliador], references: [id_obra, id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  usuario              Usuario   @relation(fields: [id_usuario_curtidor], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([id_obra_avaliada, id_usuario_avaliador, id_usuario_curtidor])
+  @@map("curtida_avaliacao")
+}
+
+model Episodio {
+  id_serie        Int
+  temporada       Int
+  numero_episodio Int
+  id_obra         Int
+  obra            Obra @relation(fields: [id_obra], references: [id_obra], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([id_serie, temporada, numero_episodio])
+  @@map("episodio")
+}
+
+model Filme {
+  id_franquia Int
+  edicao      Int
+  id_obra     Int      @unique
+  franquia    Franquia @relation(fields: [id_franquia], references: [id_franquia], onDelete: NoAction, onUpdate: NoAction)
+  obra        Obra     @relation(fields: [id_obra], references: [id_obra], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([id_franquia, edicao])
+  @@map("filme")
+}
+
+model Franquia {
+  id_franquia Int     @id @default(autoincrement())
+  nome        String  @db.VarChar(255)
+  filme       Filme[]
+
+  @@map("franquia")
+}
+
+model Obra {
+  id_obra    Int           @id @default(autoincrement())
+  titulo     String        @db.VarChar(255)
+  sinopse    String
+  lancamento DateTime      @db.Date
+  tipo_obra  TiposObraEnum
+  avaliacao  Avaliacao[]
+  episodio   Episodio[]
+  filme      Filme?
+  serie      Serie[]
+
+  @@map("obra")
+}
+
+model Serie {
+  id_serie Int  @id @default(autoincrement())
+  id_obra  Int
+  obra     Obra @relation(fields: [id_obra], references: [id_obra], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("serie")
+}
+
+model Usuario {
+  id_usuario        Int                @id @default(autoincrement())
+  nome_usuario      String             @db.VarChar(100)
+  email             String             @unique @db.VarChar(150)
+  senha             String             @db.VarChar(512)
+  tipo_usuario      PapelUsuarioEnum?  @default(NORMAL)
+  avaliacao         Avaliacao[]
+  curtida_avaliacao CurtidaAvaliacao[]
+
+  @@map("usuario")
+}
+
+enum PapelUsuarioEnum {
+  GESTOR
+  CRITICO
+  NORMAL
+
+  @@map("papel_usuario_enum")
+}
+
+enum TiposObraEnum {
+  SERIE
+  EPISODIO
+  FILME
+
+  @@map("tipos_obra_enum")
+}

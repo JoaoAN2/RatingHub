@@ -1,0 +1,10 @@
+As primeiras entidades identificadas foram: 
+  - Usuário 
+  - Crítico 
+  - Gestor de Conteúdo 
+  - Filme 
+  - Série 
+  - Episódio 
+  - Avaliação 
+  - Likes 
+  - Gênero 

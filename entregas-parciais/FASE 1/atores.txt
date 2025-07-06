@@ -1,0 +1,4 @@
+Os atores identificados foram: 
+  - Gestor de conteúdo.  
+  - Crítico. 
+  - Usuários. 

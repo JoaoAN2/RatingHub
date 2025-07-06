@@ -1,0 +1,4 @@
+O tema escolhido é Plataforma de Avaliação de Filmes/Séries, e o nome 
+do projeto RatingHub, o intuito é desenvolver nosso projeto com base em um tema 
+que gostamos muito e temos como referência plataformas como o MetaCritic e o 
+LetterBox.

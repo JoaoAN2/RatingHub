@@ -1,0 +1,8 @@
+Os primeiros requisitos funcionais identificados foram: 
+  1. Usuário deve realizar avaliação em filme, série ou episódio. 
+  2. Crítico deve realizar avaliação em filme, série ou episódio. 
+  3. Avaliação deve conter um comentário. 
+  4. Uma avaliação pode ser curtido por críticos ou usuários. 
+  5. Um episódio, série ou filme pode ser avaliado por críticos ou usuário. 
+  6. Um episódio, série ou filme deve apresentar a nota dada por usuários, 
+  e a nota dada por críticos.
