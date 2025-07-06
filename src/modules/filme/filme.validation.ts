@@ -1,4 +1,3 @@
-import { TiposObraEnum } from '@prisma/client';
 import Joi from 'joi';
 
 // Filme validations
