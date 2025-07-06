@@ -19,10 +19,7 @@ const queryFranquias = async <Key extends keyof Franquia>(
   },
   keys: Key[] = [
     "id_franquia",
-    "titulo",
-    "lancamento",
-    "sinopse",
-    "tipo_franquia",
+    "nome"
   ] as Key[]
 ): Promise<Pick<Franquia, Key>[]> => {
   const page = options.page ?? 1;
@@ -45,10 +42,7 @@ const getFranquiaById = async <Key extends keyof Franquia>(
   id: number,
   keys: Key[] = [
     "id_franquia",
-    "titulo",
-    "lancamento",
-    "sinopse",
-    "tipo_franquia",
+    "nome"
   ] as Key[]
 ): Promise<Pick<Franquia, Key> | null> => {
   return prisma.franquia.findUnique({
@@ -62,13 +56,10 @@ const updateFranquiaById = async <Key extends keyof Franquia>(
   updateBody: Prisma.FranquiaUpdateInput,
   keys: Key[] = [
     "id_franquia",
-    "titulo",
-    "lancamento",
-    "sinopse",
-    "tipo_franquia",
+    "nome"
   ] as Key[]
 ): Promise<Pick<Franquia, Key> | null> => {
-  const franquia = await getFranquiaById(franquiaId, ["id_franquia", "titulo"]);
+  const franquia = await getFranquiaById(franquiaId, ["id_franquia", "nome"]);
   if (!franquia) {
     throw new ApiError(httpStatus.NOT_FOUND, "Franquia not found");
   }
