@@ -1,5 +1,4 @@
 /*
-
 -- RATING HUB
 
 Alunos:

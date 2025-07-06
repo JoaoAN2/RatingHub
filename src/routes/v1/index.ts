@@ -5,6 +5,7 @@ import obraRoute from './obra.route';
 import franquiaRoute from './franquia.route';
 import filmeRoute from './filme.route';
 import serieRoute from './serie.route';
+import episodioRoute from './episodio.route';
 
 const router = express.Router();
 
@@ -32,6 +33,10 @@ const defaultRoutes = [
   {
     path: '/series',
     route: serieRoute
+  },
+  {
+    path: '/episodios',
+    route: episodioRoute
   }
 ];
 
