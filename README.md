@@ -34,8 +34,8 @@ Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento l
 
 1.  **Clone o Repositório** 📂
     ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    cd seu-repositorio
+    git clone https://github.com/JoaoAN2/RatingHub.git
+    cd RatingHub
     ```
 
 2.  **Instale as Dependências** 📦
@@ -53,8 +53,8 @@ Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento l
 
     *Exemplo:*
     ```env
-    # Altere "seu_usuario", "sua_senha" e, se necessário, a porta e o nome do banco.
-    DATABASE_URL="postgresql://seu_usuario:sua_senha@localhost:5432/ratinghub"
+    # Altere "username", "password" e, se necessário, a porta e o nome do banco.
+    DATABASE_URL="postgresql://username:password@localhost:5432/ratinghub"
     ```
 
 4.  **Sincronize o Banco de Dados com o Prisma** 🗄️
