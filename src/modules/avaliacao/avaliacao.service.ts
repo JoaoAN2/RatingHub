@@ -5,12 +5,8 @@ import prisma from '../../client';
 import ApiError from '../../utils/ApiError';
 import obraService from '../obra/obra.service'; 
 
-/**
- * Cria uma nova avaliação para uma obra.
- * @param data Os dados da avaliação.
- * @param user O usuário que está fazendo a avaliação.
- * @returns A avaliação criada.
- */
+
+// cria uma nova avaliação para uma obra
 const createAvaliacao = async (
   data: Omit<Avaliacao, 'id_usuario' | 'data_hora_avaliacao' | 'id_obra_avaliada' | 'id_usuario_avaliador' >,
   user: Usuario
@@ -42,6 +38,84 @@ const createAvaliacao = async (
   });
 };
 
+
+// busca todas as avaliações de uma obra específica.
+const getAvaliacoesByObraId = async (idObra: number) => {
+  const avaliacoes = await prisma.avaliacao.findMany({
+    where: { id_obra: idObra },
+    include: {
+      usuario: { // inclui nome do usuário que fez a avaliação
+        select: {
+          nome_usuario: true
+        }
+      },
+      _count: { // conta quantas curtidas a avaliação tem
+        select: {
+          curtida_avaliacao: true
+        }
+      }
+    },
+    orderBy: {
+      data_hora_avaliacao: 'desc'     // mostra as avaliacoes mais recentes primeiro
+    }
+  });
+  return avaliacoes;
+};
+
+
+// atualiza uma avaliação existente.
+const updateAvaliacao = async (
+  idObra: number,
+  idUsuario: number,
+  updateBody: Partial<Pick<Avaliacao, 'nota' | 'comentario'>>,
+  user: Usuario
+) => {
+  // verificação de autenticidade do usuário
+  if (idUsuario !== user.id_usuario) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Você não tem permissão para editar a avaliação de outra pessoa.');
+  }
+
+  const avaliacao = await prisma.avaliacao.findUnique({
+    where: { id_obra_id_usuario: { id_obra: idObra, id_usuario: idUsuario } }
+  });
+
+  if (!avaliacao) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Avaliação não encontrada.');
+  }
+
+  const updatedAvaliacao = await prisma.avaliacao.update({
+    where: { id_obra_id_usuario: { id_obra: idObra, id_usuario: idUsuario } },
+    data: updateBody
+  });
+
+  return updatedAvaliacao;
+};
+
+
+// deleta uma avaliação
+const deleteAvaliacao = async (idObra: number, idUsuario: number, user: Usuario) => {
+  // verificação de autenticidade de usuário
+  if (idUsuario !== user.id_usuario) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Você não tem permissão para deletar a avaliação de outra pessoa.');
+  }
+
+  const avaliacao = await prisma.avaliacao.findUnique({
+    where: { id_obra_id_usuario: { id_obra: idObra, id_usuario: idUsuario } }
+  });
+
+  if (!avaliacao) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Avaliação não encontrada.');
+  }
+
+  await prisma.avaliacao.delete({
+    where: { id_obra_id_usuario: { id_obra: idObra, id_usuario: idUsuario } }
+  });
+};
+
+// retorna os elementos
 export default {
-  createAvaliacao
+  createAvaliacao,
+  getAvaliacoesByObraId,
+  updateAvaliacao,
+  deleteAvaliacao
 };

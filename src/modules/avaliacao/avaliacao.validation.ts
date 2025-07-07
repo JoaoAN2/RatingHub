@@ -1,6 +1,7 @@
 
 import Joi from 'joi';
 
+// criar uma avaliação
 const createAvaliacao = {
   body: Joi.object().keys({
     id_obra: Joi.number().integer().required(),
@@ -16,6 +17,38 @@ const createAvaliacao = {
   })
 };
 
+// buscar avaliações de uma obra
+const getAvaliacoes = {
+  params: Joi.object().keys({
+    idObra: Joi.number().integer().required()
+  })
+};
+
+// atualizar uma avaliação
+const updateAvaliacao = {
+  params: Joi.object().keys({
+    idObra: Joi.number().integer().required(),
+    idUsuario: Joi.number().integer().required()
+  }),
+  body: Joi.object()
+    .keys({
+      nota: Joi.number().integer().min(0).max(100),
+      comentario: Joi.string().max(512)
+    })
+    .min(1)     // é exigido que pelo menos um dos campos (nota ou comentario) seja enviado
+};
+
+// deletar uma avaliação
+const deleteAvaliacao = {
+  params: Joi.object().keys({
+    idObra: Joi.number().integer().required(),
+    idUsuario: Joi.number().integer().required()
+  })
+};
+
 export default {
-  createAvaliacao
+  createAvaliacao,
+  getAvaliacoes,
+  updateAvaliacao,
+  deleteAvaliacao
 };
