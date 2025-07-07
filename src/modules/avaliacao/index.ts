@@ -1,6 +1,3 @@
-
-
-
 import avaliacaoController from './avaliacao.controller';
 import avaliacaoService from './avaliacao.service';
 import avaliacaoValidation from './avaliacao.validation';

@@ -21,6 +21,54 @@ O Rating HUB é uma API RESTful construída para gerenciar e servir dados sobre 
 -   **JWT (JSON Web Tokens):** Para autenticação e autorização baseada em tokens.
 -   **JOI:** Biblioteca para validação de esquemas e dados.
 
+## 🚀 Como Iniciar o Projeto
+
+Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento localmente.
+
+### ✅ Pré-requisitos
+
+-   **Node.js:** Versão `22.x` ou superior.
+-   **PostgreSQL:** É necessário ter uma instância do PostgreSQL rodando em sua máquina.
+
+### 📋 Passo a Passo
+
+1.  **Clone o Repositório** 📂
+    ```bash
+    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+    cd seu-repositorio
+    ```
+
+2.  **Instale as Dependências** 📦
+    Execute o comando abaixo para instalar todos os pacotes necessários do projeto.
+    ```bash
+    npm install
+    ```
+
+3.  **Configure as Variáveis de Ambiente** 📝
+    Copie o arquivo de exemplo `.env.example` para um novo arquivo chamado `.env`.
+    ```bash
+    cp .env.example .env
+    ```
+    Depois, abra o arquivo `.env` e atualize a variável `DATABASE_URL` com as suas credenciais do PostgreSQL.
+
+    *Exemplo:*
+    ```env
+    # Altere "seu_usuario", "sua_senha" e, se necessário, a porta e o nome do banco.
+    DATABASE_URL="postgresql://seu_usuario:sua_senha@localhost:5432/ratinghub"
+    ```
+
+4.  **Sincronize o Banco de Dados com o Prisma** 🗄️
+    Este comando irá criar e aplicar as migrações do Prisma no seu banco de dados, garantindo que ele esteja com a estrutura mais recente definida no `schema.prisma`. Ele também gera o Prisma Client automaticamente.
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5.  **Inicie o Servidor** ▶️
+    Com tudo configurado, rode o projeto em modo de desenvolvimento.
+    ```bash
+    npm run dev
+    ```
+
 ## 💾 Schema do Banco de Dados (Prisma)
 
 O esquema abaixo define a estrutura do banco de dados, incluindo todas as tabelas, colunas e relacionamentos.
