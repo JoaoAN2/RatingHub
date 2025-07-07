@@ -46,9 +46,19 @@ const deleteAvaliacao = {
   })
 };
 
+
+// para curtir uma avaliação
+const likeAvaliacao = {
+  body: Joi.object().keys({
+    id_obra_avaliada: Joi.number().integer().required(),
+    id_usuario_avaliador: Joi.number().integer().required()
+  })
+};
+
 export default {
   createAvaliacao,
   getAvaliacoes,
   updateAvaliacao,
-  deleteAvaliacao
+  deleteAvaliacao,
+  likeAvaliacao
 };

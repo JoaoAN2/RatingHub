@@ -34,4 +34,13 @@ router  // atualiza e deleta avaliação especifica >> rota identifica avaliaç�
     avaliacaoController.deleteAvaliacao
   );
 
+
+router    // curte uma avaliação
+  .route('/curtir')
+  .post(
+    auth('NORMAL', 'CRITICO'), // Precisa estar logado para curtir
+    validate(avaliacaoValidation.likeAvaliacao),
+    avaliacaoController.likeAvaliacao
+  );
+
 export default router;

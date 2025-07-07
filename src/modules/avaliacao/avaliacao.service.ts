@@ -1,5 +1,5 @@
 
-import { Avaliacao, Usuario } from '@prisma/client';
+import { Avaliacao, Usuario, CurtidaAvaliacao } from '@prisma/client';
 import httpStatus from 'http-status';
 import prisma from '../../client';
 import ApiError from '../../utils/ApiError';
@@ -112,10 +112,52 @@ const deleteAvaliacao = async (idObra: number, idUsuario: number, user: Usuario)
   });
 };
 
+// adiciona uma curtida a uma avaliação
+const likeAvaliacao = async (
+  idObraAvaliada: number,
+  idUsuarioAvaliador: number,
+  userCurtidor: Usuario
+): Promise<CurtidaAvaliacao> => {
+  // verifica se a avaliação que vai ser curtida realmente existe
+  const avaliacao = await prisma.avaliacao.findUnique({
+    where: { id_obra_id_usuario: { id_obra: idObraAvaliada, id_usuario: idUsuarioAvaliador } }
+  });
+
+  if (!avaliacao) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'A avaliação que você tentou curtir não existe.');
+  }
+  
+  // verifica se o usuário já não curtiu esta avaliação antes
+  const curtidaExistente = await prisma.curtidaAvaliacao.findUnique({
+      where: {
+          id_obra_avaliada_id_usuario_avaliador_id_usuario_curtidor: {
+              id_obra_avaliada: idObraAvaliada,
+              id_usuario_avaliador: idUsuarioAvaliador,
+              id_usuario_curtidor: userCurtidor.id_usuario
+          }
+      }
+  });
+
+  if (curtidaExistente) {
+      throw new ApiError(httpStatus.CONFLICT, 'Você já curtiu esta avaliação.');
+  }
+
+  // se tudo estiver certo, cria o registro da curtida no banco
+  return prisma.curtidaAvaliacao.create({
+    data: {
+      id_obra_avaliada: idObraAvaliada,
+      id_usuario_avaliador: idUsuarioAvaliador,
+      id_usuario_curtidor: userCurtidor.id_usuario
+    }
+  });
+};
+
+
 // retorna os elementos
 export default {
   createAvaliacao,
   getAvaliacoesByObraId,
   updateAvaliacao,
-  deleteAvaliacao
+  deleteAvaliacao,
+  likeAvaliacao
 };

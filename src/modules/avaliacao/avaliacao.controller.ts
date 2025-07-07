@@ -50,9 +50,24 @@ const deleteAvaliacao = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+
+// controller para curtir uma avaliação
+const likeAvaliacao = catchAsync(async (req, res) => {
+  const userCurtidor = req.user;
+  if (!userCurtidor) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'A autenticação é necessária para curtir.');
+  }
+
+  const { id_obra_avaliada, id_usuario_avaliador } = req.body;
+
+  const curtida = await avaliacaoService.likeAvaliacao(id_obra_avaliada, id_usuario_avaliador, userCurtidor);
+  res.status(httpStatus.CREATED).send(curtida);
+});
+
 export default {
   createAvaliacao,
   getAvaliacoesByObraId,
   updateAvaliacao,
-  deleteAvaliacao
+  deleteAvaliacao,
+  likeAvaliacao
 };
