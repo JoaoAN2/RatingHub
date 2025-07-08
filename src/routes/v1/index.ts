@@ -7,7 +7,7 @@ import filmeRoute from './filme.route';
 import serieRoute from './serie.route';
 import episodioRoute from './episodio.route';
 import avaliacaoRoute from './avaliacao.route';
-
+import postRoute from './post.route';
 
 const router = express.Router();
 
@@ -43,6 +43,10 @@ const defaultRoutes = [
   {
     path: '/avaliacoes',
     route: avaliacaoRoute 
+  },
+  {
+    path: '/posts',
+    route: postRoute
   }
 ];
 
