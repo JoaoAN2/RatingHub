@@ -13,13 +13,13 @@ O Rating HUB é uma API RESTful construída para gerenciar e servir dados sobre 
 
 ### 🛠️ Principais Ferramentas e Tecnologias
 
--   **Node.js:** Ambiente de execução JavaScript no servidor.
--   **TypeScript:** Superset do JavaScript que adiciona tipagem estática.
--   **Express:** Framework para construção de APIs em Node.js.
--   **Prisma:** ORM (Object-Relational Mapper) de última geração para Node.js e TypeScript.
--   **PostgreSQL:** Banco de dados relacional utilizado para persistência dos dados.
--   **JWT (JSON Web Tokens):** Para autenticação e autorização baseada em tokens.
--   **JOI:** Biblioteca para validação de esquemas e dados.
+- **Node.js:** Ambiente de execução JavaScript no servidor.
+- **TypeScript:** Superset do JavaScript que adiciona tipagem estática.
+- **Express:** Framework para construção de APIs em Node.js.
+- **Prisma:** ORM (Object-Relational Mapper) de última geração para Node.js e TypeScript.
+- **PostgreSQL:** Banco de dados relacional utilizado para persistência dos dados.
+- **JWT (JSON Web Tokens):** Para autenticação e autorização baseada em tokens.
+- **JOI:** Biblioteca para validação de esquemas e dados.
 
 ## 🚀 Como Iniciar o Projeto
 
@@ -27,12 +27,13 @@ Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento l
 
 ### ✅ Pré-requisitos
 
--   **Node.js:** Versão `22.x` ou superior.
--   **PostgreSQL:** É necessário ter uma instância do PostgreSQL rodando em sua máquina.
+- **Node.js:** Versão `22.x` ou superior.
+- **PostgreSQL:** É necessário ter uma instância do PostgreSQL rodando em sua máquina.
 
 ### 📋 Passo a Passo
 
 1.  **Clone o Repositório** 📂
+
     ```bash
     git clone https://github.com/JoaoAN2/RatingHub.git
     cd RatingHub
@@ -40,18 +41,22 @@ Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento l
 
 2.  **Instale as Dependências** 📦
     Execute o comando abaixo para instalar todos os pacotes necessários do projeto.
+
     ```bash
     npm install
     ```
 
 3.  **Configure as Variáveis de Ambiente** 📝
     Copie o arquivo de exemplo `.env.example` para um novo arquivo chamado `.env`.
+
     ```bash
     cp .env.example .env
     ```
+
     Depois, abra o arquivo `.env` e atualize a variável `DATABASE_URL` com as suas credenciais do PostgreSQL.
 
-    *Exemplo:*
+    _Exemplo:_
+
     ```env
     # Altere "username", "password" e, se necessário, a porta e o nome do banco.
     DATABASE_URL="postgresql://username:password@localhost:5432/ratinghub"
@@ -59,6 +64,7 @@ Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento l
 
 4.  **Sincronize o Banco de Dados com o Prisma** 🗄️
     Este comando irá criar e aplicar as migrações do Prisma no seu banco de dados, garantindo que ele esteja com a estrutura mais recente definida no `schema.prisma`. Ele também gera o Prisma Client automaticamente.
+
     ```bash
     npx prisma migrate dev
     ```
@@ -76,6 +82,7 @@ O esquema abaixo define a estrutura do banco de dados, incluindo todas as tabela
 ### Modelos Principais
 
 #### 🎭 `Obra`
+
 O modelo central que representa uma obra audiovisual (filme ou episódio de série).
 
 ```prisma
@@ -93,6 +100,7 @@ model Obra {
 ```
 
 #### 👤 `Usuario`
+
 Representa um usuário do sistema, que pode ter diferentes papéis.
 
 ```prisma
@@ -108,6 +116,7 @@ model Usuario {
 ```
 
 #### 🌟 `Avaliacao`
+
 Armazena a avaliação (nota e comentário) de um usuário para uma determinada obra.
 
 ```prisma
@@ -128,6 +137,7 @@ model Avaliacao {
 ### Modelos de Relacionamento e Específicos
 
 #### 🎥 `Filme`
+
 Especialização do modelo `Obra` para filmes, com relação a uma franquia.
 
 ```prisma
@@ -143,6 +153,7 @@ model Filme {
 ```
 
 #### 📺 `Serie` e `Episodio`
+
 Modelos para representar séries e seus respectivos episódios.
 
 ```prisma
@@ -164,6 +175,7 @@ model Episodio {
 ```
 
 #### 🔗 `Franquia`
+
 Agrupa filmes que pertencem à mesma franquia.
 
 ```prisma
@@ -175,6 +187,7 @@ model Franquia {
 ```
 
 #### 👍 `CurtidaAvaliacao`
+
 Permite que usuários curtam as avaliações de outros usuários.
 
 ```prisma
@@ -190,6 +203,7 @@ model CurtidaAvaliacao {
 ```
 
 ### 🏷️ Enums
+
 Tipos enumerados para papéis de usuário e tipos de obra.
 
 ```typescript
@@ -212,69 +226,69 @@ A seguir estão as principais rotas disponíveis na API, com detalhes sobre os m
 
 ### 🔑 Rotas de Autenticação (`/auth`)
 
-* `POST /register`: Registra um novo usuário no sistema.
-* `POST /login`: Autentica um usuário e retorna um token JWT.
+- `POST /register`: Registra um novo usuário no sistema.
+- `POST /login`: Autentica um usuário e retorna um token JWT.
 
 ### 👥 Rotas de Usuário (`/usuarios`)
 
-* **Permissões:** A maioria das rotas de usuário requer autenticação. A modificação e exclusão são restritas aos gestores.
-* `GET /`: Lista todos os usuários.
-* `POST /`: Cria um novo usuário (Requer autenticação: `GESTOR`).
-* `GET /:userId`: Retorna um usuário específico.
-* `PATCH /:userId`: Atualiza os dados de um usuário (Requer permissão: `GESTOR`).
-* `DELETE /:userId`: Remove um usuário (Requer permissão: `GESTOR`).
+- **Permissões:** A maioria das rotas de usuário requer autenticação. A modificação e exclusão são restritas aos gestores.
+- `GET /`: Lista todos os usuários.
+- `POST /`: Cria um novo usuário (Requer autenticação: `GESTOR`).
+- `GET /:userId`: Retorna um usuário específico.
+- `PATCH /:userId`: Atualiza os dados de um usuário (Requer permissão: `GESTOR`).
+- `DELETE /:userId`: Remove um usuário (Requer permissão: `GESTOR`).
 
 ### 📚 Rotas de Obras (`/obras`)
 
-* **Permissões:** Apenas `GESTOR` pode criar, atualizar ou deletar obras. A listagem é pública.
-* `GET /`: Lista todas as obras com filtros (`titulo`, `tipo_obra`) e paginação (`limit`, `page`, `sortBy`, `sortType`).
-* `POST /`: Cadastra uma nova obra (Requer permissão: `GESTOR`).
-* `GET /:idObra`: Retorna uma obra específica pelo seu ID.
-* `PATCH /:idObra`: Atualiza os dados de uma obra (Requer permissão: `GESTOR`).
-* `DELETE /:idObra`: Remove uma obra (Requer permissão: `GESTOR`).
+- **Permissões:** Apenas `GESTOR` pode criar, atualizar ou deletar obras. A listagem é pública.
+- `GET /`: Lista todas as obras com filtros (`titulo`, `tipo_obra`) e paginação (`limit`, `page`, `sortBy`, `sortType`).
+- `POST /`: Cadastra uma nova obra (Requer permissão: `GESTOR`).
+- `GET /:idObra`: Retorna uma obra específica pelo seu ID.
+- `PATCH /:idObra`: Atualiza os dados de uma obra (Requer permissão: `GESTOR`).
+- `DELETE /:idObra`: Remove uma obra (Requer permissão: `GESTOR`).
 
 ### 🎥 Rotas de Franquia (`/franquias`)
 
-* **Permissões:** Apenas `GESTOR` pode gerenciar franquias.
-* `GET /`: Lista todas as franquias.
-* `POST /`: Cria uma nova franquia (Requer permissão: `GESTOR`).
-* `GET /:idFranquia`: Retorna uma franquia específica.
-* `PATCH /:idFranquia`: Atualiza os dados de uma franquia (Requer permissão: `GESTOR`).
-* `DELETE /:idFranquia`: Remove uma franquia (Requer permissão: `GESTOR`).
+- **Permissões:** Apenas `GESTOR` pode gerenciar franquias.
+- `GET /`: Lista todas as franquias.
+- `POST /`: Cria uma nova franquia (Requer permissão: `GESTOR`).
+- `GET /:idFranquia`: Retorna uma franquia específica.
+- `PATCH /:idFranquia`: Atualiza os dados de uma franquia (Requer permissão: `GESTOR`).
+- `DELETE /:idFranquia`: Remove uma franquia (Requer permissão: `GESTOR`).
 
 ### 🎞️ Rotas de Filme (`/filmes`)
 
-* **Permissões:** Apenas `GESTOR` pode gerenciar filmes.
-* `GET /`: Lista todos os filmes.
-* `POST /`: Cria um novo filme (Requer permissão: `GESTOR`).
-* `GET /:idFranquia/:edicao`: Retorna um filme específico pela chave composta de franquia e edição.
-* `PATCH /:idFranquia/:edicao`: Atualiza os dados de um filme (Requer permissão: `GESTOR`).
-* `DELETE /:idFranquia/:edicao`: Remove um filme (Requer permissão: `GESTOR`).
+- **Permissões:** Apenas `GESTOR` pode gerenciar filmes.
+- `GET /`: Lista todos os filmes.
+- `POST /`: Cria um novo filme (Requer permissão: `GESTOR`).
+- `GET /:idFranquia/:edicao`: Retorna um filme específico pela chave composta de franquia e edição.
+- `PATCH /:idFranquia/:edicao`: Atualiza os dados de um filme (Requer permissão: `GESTOR`).
+- `DELETE /:idFranquia/:edicao`: Remove um filme (Requer permissão: `GESTOR`).
 
 ### 🍿 Rotas de Série (`/series`)
 
-* **Permissões:** Apenas `GESTOR` pode gerenciar séries.
-* `GET /`: Lista todas as séries.
-* `POST /`: Cria uma nova série (Requer permissão: `GESTOR`).
-* `GET /:idSerie`: Retorna uma série específica.
-* `PATCH /:idSerie`: Atualiza os dados de uma série (Requer permissão: `GESTOR`).
-* `DELETE /:idSerie`: Remove uma série (Requer permissão: `GESTOR`).
+- **Permissões:** Apenas `GESTOR` pode gerenciar séries.
+- `GET /`: Lista todas as séries.
+- `POST /`: Cria uma nova série (Requer permissão: `GESTOR`).
+- `GET /:idSerie`: Retorna uma série específica.
+- `PATCH /:idSerie`: Atualiza os dados de uma série (Requer permissão: `GESTOR`).
+- `DELETE /:idSerie`: Remove uma série (Requer permissão: `GESTOR`).
 
 ### 🎬 Rotas de Episódio (`/episodios`)
 
-* **Permissões:** Apenas `GESTOR` pode gerenciar episódios.
-* `GET /`: Lista todos os episódios.
-* `POST /`: Cria um novo episódio (Requer permissão: `GESTOR`).
-* `GET /:id_serie/:temporada/:numero_episodio`: Retorna um episódio específico.
-* `PATCH /:id_serie/:temporada/:numero_episodio`: Atualiza os dados de um episódio (Requer permissão: `GESTOR`).
-* `DELETE /:id_serie/:temporada/:numero_episodio`: Remove um episódio (Requer permissão: `GESTOR`).
+- **Permissões:** Apenas `GESTOR` pode gerenciar episódios.
+- `GET /`: Lista todos os episódios.
+- `POST /`: Cria um novo episódio (Requer permissão: `GESTOR`).
+- `GET /:id_serie/:temporada/:numero_episodio`: Retorna um episódio específico.
+- `PATCH /:id_serie/:temporada/:numero_episodio`: Atualiza os dados de um episódio (Requer permissão: `GESTOR`).
+- `DELETE /:id_serie/:temporada/:numero_episodio`: Remove um episódio (Requer permissão: `GESTOR`).
 
 ### ⭐ Rotas de Avaliação (`/avaliacoes`)
 
-* **Permissões:** Usuários com papel `NORMAL` ou `CRITICO` podem criar, atualizar, deletar e interagir com avaliações. A listagem de avaliações de uma obra é pública.
-* `POST /`: Cria uma nova avaliação para uma obra (Requer autenticação: `NORMAL`, `CRITICO`).
-* `GET /obra/:idObra`: Lista todas as avaliações de uma obra específica.
-* `PATCH /obra/:idObra`: Atualiza a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
-* `DELETE /obra/:idObra`: Deleta a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
-* `POST /curtir`: Adiciona uma curtida a uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
-* `DELETE /curtir`: Remove a curtida de uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
+- **Permissões:** Usuários com papel `NORMAL` ou `CRITICO` podem criar, atualizar, deletar e interagir com avaliações. A listagem de avaliações de uma obra é pública.
+- `POST /`: Cria uma nova avaliação para uma obra (Requer autenticação: `NORMAL`, `CRITICO`).
+- `GET /obra/:idObra`: Lista todas as avaliações de uma obra específica.
+- `PATCH /obra/:idObra`: Atualiza a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
+- `DELETE /obra/:idObra`: Deleta a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
+- `POST /curtir`: Adiciona uma curtida a uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
+- `DELETE /curtir`: Remove a curtida de uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).

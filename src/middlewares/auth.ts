@@ -28,12 +28,12 @@ const verifyToken = async (token: string): Promise<Usuario> => {
     });
     
     if (!user) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'Token refers to user that no longer exists');
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário responsável pelo token não encontrado');
     }
     
     return user;
   } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token');
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Token inválido ou expirado');
   }
 };
 
@@ -44,7 +44,7 @@ const auth =
       const authHeader = req.headers.authorization;
       
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
+        throw new ApiError(httpStatus.UNAUTHORIZED, 'Token de autenticação não fornecido');
       }
       
       const token = authHeader.substring(7); // Remove "Bearer " prefix
@@ -56,7 +56,7 @@ const auth =
         const userRole = user.tipo_usuario || PapelUsuarioEnum.NORMAL;
         
         if (!requiredRoles.includes(userRole)) {
-          throw new ApiError(httpStatus.FORBIDDEN, 'Insufficient permissions');
+          throw new ApiError(httpStatus.FORBIDDEN, 'Acesso negado: usuário não possui permissão para esta ação');
         }
       }
       
