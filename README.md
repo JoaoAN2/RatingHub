@@ -292,3 +292,12 @@ A seguir estão as principais rotas disponíveis na API, com detalhes sobre os m
 - `DELETE /obra/:idObra`: Deleta a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
 - `POST /curtir`: Adiciona uma curtida a uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
 - `DELETE /curtir`: Remove a curtida de uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
+- `GET /obra/:idObra/media`: Retorna a média das avaliações de uma obra específica.
+
+### 📰 Rotas de Post (`/post`)
+
+Estas rotas são públicas e servem para obter uma visualização consolidada, no formato de "post", para uma obra específica.
+
+- `GET /filme/:idFranquia/:edicao`: Retorna o post de um filme específico.
+- `GET /serie/:idSerie`: Retorna o post de uma série específica.
+- `GET /episodio/:id_serie/:temporada/:numero_episodio`: Retorna o post de um episódio específico.
