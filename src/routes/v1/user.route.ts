@@ -7,12 +7,12 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('NORMAL', 'GESTOR', 'CRITICO'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('NORMAL', 'GESTOR', 'CRITICO'), validate(userValidation.getUsers), userController.getUsers);
+  .post(auth('GESTOR'), validate(userValidation.createUser), userController.createUser)
+  .get(validate(userValidation.getUsers), userController.getUsers);
 
 router
   .route('/:userId')
-  .get(auth('NORMAL', 'GESTOR', 'CRITICO'), validate(userValidation.getUser), userController.getUser)
+  .get(validate(userValidation.getUser), userController.getUser)
   .patch(auth('GESTOR'), validate(userValidation.updateUser), userController.updateUser)
   .delete(auth('GESTOR'), validate(userValidation.deleteUser), userController.deleteUser);
 

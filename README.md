@@ -208,58 +208,73 @@ enum TiposObraEnum {
 
 ## 🔗 Rotas da API (Endpoints)
 
-A seguir estão as principais rotas disponíveis na API.
+A seguir estão as principais rotas disponíveis na API, com detalhes sobre os métodos HTTP e as permissões de acesso necessárias. A URL base para todas as rotas é `/v1`.
 
-### 📚 Rotas de Obras
+### 🔑 Rotas de Autenticação (`/auth`)
 
--   `GET /obras`: Lista todas as obras com filtros e paginação.
--   `GET /obras/:idObra`: Retorna uma obra específica pelo seu ID.
--   `POST /obras`: Cadastra uma nova obra.
--   `PATCH /obras/:idObra`: Atualiza os dados de uma obra.
--   `DELETE /obras/:idObra`: Remove uma obra.
+* `POST /register`: Registra um novo usuário no sistema.
+* `POST /login`: Autentica um usuário e retorna um token JWT.
 
-### 🔑 Rotas de Autenticação
+### 👥 Rotas de Usuário (`/usuarios`)
 
--   `POST /auth/login`: Autentica um usuário e retorna um token JWT.
--   `POST /auth/register`: Registra um novo usuário no sistema.
+* **Permissões:** A maioria das rotas de usuário requer autenticação. A modificação e exclusão são restritas aos gestores.
+* `GET /`: Lista todos os usuários.
+* `POST /`: Cria um novo usuário (Requer autenticação: `GESTOR`).
+* `GET /:userId`: Retorna um usuário específico.
+* `PATCH /:userId`: Atualiza os dados de um usuário (Requer permissão: `GESTOR`).
+* `DELETE /:userId`: Remove um usuário (Requer permissão: `GESTOR`).
 
-### 👥 Rotas de Usuário
+### 📚 Rotas de Obras (`/obras`)
 
--   `GET /usuarios`: Lista todos os usuários.
--   `GET /usuarios/:idUsuario`: Retorna um usuário específico.
--   `POST /usuarios`: Cria um novo usuário (geralmente usado por gestores).
--   `PATCH /usuarios/:idUsuario`: Atualiza os dados de um usuário.
--   `DELETE /usuarios/:idUsuario`: Remove um usuário.
+* **Permissões:** Apenas `GESTOR` pode criar, atualizar ou deletar obras. A listagem é pública.
+* `GET /`: Lista todas as obras com filtros (`titulo`, `tipo_obra`) e paginação (`limit`, `page`, `sortBy`, `sortType`).
+* `POST /`: Cadastra uma nova obra (Requer permissão: `GESTOR`).
+* `GET /:idObra`: Retorna uma obra específica pelo seu ID.
+* `PATCH /:idObra`: Atualiza os dados de uma obra (Requer permissão: `GESTOR`).
+* `DELETE /:idObra`: Remove uma obra (Requer permissão: `GESTOR`).
 
-### 🎞️ Rotas de Filme
+### 🎥 Rotas de Franquia (`/franquias`)
 
--   `GET /filmes`: Lista todos os filmes.
--   `GET /filmes/:idFilme`: Retorna um filme específico.
--   `POST /filmes`: Cria um novo filme.
--   `PATCH /filmes/:idFilme`: Atualiza os dados de um filme.
--   `DELETE /filmes/:idFilme`: Remove um filme.
+* **Permissões:** Apenas `GESTOR` pode gerenciar franquias.
+* `GET /`: Lista todas as franquias.
+* `POST /`: Cria uma nova franquia (Requer permissão: `GESTOR`).
+* `GET /:idFranquia`: Retorna uma franquia específica.
+* `PATCH /:idFranquia`: Atualiza os dados de uma franquia (Requer permissão: `GESTOR`).
+* `DELETE /:idFranquia`: Remove uma franquia (Requer permissão: `GESTOR`).
 
-### 🍿 Rotas de Série
+### 🎞️ Rotas de Filme (`/filmes`)
 
--   `GET /series`: Lista todas as séries.
--   `GET /series/:idSerie`: Retorna uma série específica.
--   `POST /series`: Cria uma nova série.
--   `PATCH /series/:idSerie`: Atualiza os dados de uma série.
--   `DELETE /series/:idSerie`: Remove uma série.
+* **Permissões:** Apenas `GESTOR` pode gerenciar filmes.
+* `GET /`: Lista todos os filmes.
+* `POST /`: Cria um novo filme (Requer permissão: `GESTOR`).
+* `GET /:idFranquia/:edicao`: Retorna um filme específico pela chave composta de franquia e edição.
+* `PATCH /:idFranquia/:edicao`: Atualiza os dados de um filme (Requer permissão: `GESTOR`).
+* `DELETE /:idFranquia/:edicao`: Remove um filme (Requer permissão: `GESTOR`).
 
-### 🎬 Rotas de Episódio
+### 🍿 Rotas de Série (`/series`)
 
--   `GET /episodios`: Lista todos os episódios.
--   `GET /episodios/:idEpisodio`: Retorna um episódio específico.
--   `POST /episodios`: Cria um novo episódio.
--   `PATCH /episodios/:idEpisodio`: Atualiza os dados de um episódio.
--   `DELETE /episodios/:idEpisodio`: Remove um episódio.
+* **Permissões:** Apenas `GESTOR` pode gerenciar séries.
+* `GET /`: Lista todas as séries.
+* `POST /`: Cria uma nova série (Requer permissão: `GESTOR`).
+* `GET /:idSerie`: Retorna uma série específica.
+* `PATCH /:idSerie`: Atualiza os dados de uma série (Requer permissão: `GESTOR`).
+* `DELETE /:idSerie`: Remove uma série (Requer permissão: `GESTOR`).
 
-### ⭐ Rotas de Avaliação
+### 🎬 Rotas de Episódio (`/episodios`)
 
--   `GET /avaliacoes`: Lista todas as avaliações.
--   `POST /avaliacoes`: Cria uma nova avaliação para uma obra.
--   `PATCH /avaliacoes/`: Atualiza uma avaliação existente.
--   `DELETE /avaliacoes/`: Remove uma avaliação.
--   `POST /avaliacoes/curtir`: Adiciona uma curtida a uma avaliação.
--   `DELETE /avaliacoes/curtir`: Remove uma curtida de uma avaliação.
+* **Permissões:** Apenas `GESTOR` pode gerenciar episódios.
+* `GET /`: Lista todos os episódios.
+* `POST /`: Cria um novo episódio (Requer permissão: `GESTOR`).
+* `GET /:id_serie/:temporada/:numero_episodio`: Retorna um episódio específico.
+* `PATCH /:id_serie/:temporada/:numero_episodio`: Atualiza os dados de um episódio (Requer permissão: `GESTOR`).
+* `DELETE /:id_serie/:temporada/:numero_episodio`: Remove um episódio (Requer permissão: `GESTOR`).
+
+### ⭐ Rotas de Avaliação (`/avaliacoes`)
+
+* **Permissões:** Usuários com papel `NORMAL` ou `CRITICO` podem criar, atualizar, deletar e interagir com avaliações. A listagem de avaliações de uma obra é pública.
+* `POST /`: Cria uma nova avaliação para uma obra (Requer autenticação: `NORMAL`, `CRITICO`).
+* `GET /obra/:idObra`: Lista todas as avaliações de uma obra específica.
+* `PATCH /obra/:idObra`: Atualiza a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
+* `DELETE /obra/:idObra`: Deleta a avaliação do usuário logado para uma obra específica (Requer autenticação: `NORMAL`, `CRITICO`).
+* `POST /curtir`: Adiciona uma curtida a uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
+* `DELETE /curtir`: Remove a curtida de uma avaliação (Requer autenticação: `NORMAL`, `CRITICO`).
