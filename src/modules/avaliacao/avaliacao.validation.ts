@@ -60,11 +60,20 @@ const unlikeAvaliacao = {
   })
 };
 
+
+// validação para pegar as médias
+const getMedias = {
+  params: Joi.object().keys({
+    idObra: Joi.number().integer().required()
+  })
+};
+
 export default {
   createAvaliacao,
   getAvaliacoes,
   updateAvaliacao,
   deleteAvaliacao,
   likeAvaliacao,
-  unlikeAvaliacao
+  unlikeAvaliacao,
+  getMedias
 };

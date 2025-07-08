@@ -74,11 +74,19 @@ const unlikeAvaliacao = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send(); // Sucesso sem conteúdo
 });
 
+
+// controller para buscar as médias de obra
+const getMediasByObraId = catchAsync(async (req, res) => {
+  const medias = await avaliacaoService.getMediasByObraId(Number(req.params.idObra));
+  res.send(medias);
+});
+
 export default {
   createAvaliacao,
   getAvaliacoesByObraId,
   updateAvaliacao,
   deleteAvaliacao,
   likeAvaliacao,
-  unlikeAvaliacao
+  unlikeAvaliacao,
+  getMediasByObraId
 };

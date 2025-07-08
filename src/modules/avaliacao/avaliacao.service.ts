@@ -175,6 +175,41 @@ const unlikeAvaliacao = async (
   });
 };
 
+
+// calcula a média das avaliações de uma obra, separada por normais e criticos
+const getMediasByObraId = async (idObra: number) => {
+  // calcula média das notas por críticos
+  const mediaCriticos = await prisma.avaliacao.aggregate({
+    _avg: {
+      nota: true,
+    },
+    where: {
+      id_obra: idObra,
+      usuario: {
+        tipo_usuario: 'CRITICO',
+      },
+    },
+  });
+
+  // calcula média das notas por usuários normais
+  const mediaNormais = await prisma.avaliacao.aggregate({
+    _avg: {
+      nota: true,
+    },
+    where: {
+      id_obra: idObra,
+      usuario: {
+        tipo_usuario: 'NORMAL',
+      },
+    },
+  });
+
+  return {
+    media_normais: mediaNormais._avg.nota || 0,   // retorna a média ou 0 se nula
+    media_criticos: mediaCriticos._avg.nota || 0, // retorna a média ou 0
+  };
+};
+
 // retorna os elementos
 export default {
   createAvaliacao,
@@ -182,5 +217,6 @@ export default {
   updateAvaliacao,
   deleteAvaliacao,
   likeAvaliacao,
-  unlikeAvaliacao
+  unlikeAvaliacao,
+  getMediasByObraId
 };

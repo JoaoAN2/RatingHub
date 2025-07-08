@@ -48,4 +48,10 @@ router // curte uma avaliação
     avaliacaoController.unlikeAvaliacao
   );
 
+
+router    // ler media das avaliações de obra
+  .route('/obra/:idObra/media')
+  .get(validate(avaliacaoValidation.getMedias), avaliacaoController.getMediasByObraId);
+
+
 export default router;
