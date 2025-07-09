@@ -4,8 +4,8 @@ Projeto desenvolvido para a disciplina de Banco de Dados: uma REST API para aval
 
 ## 🎓 Alunos
 
-- João Augusto Do Nascimento
-- Allan Custódio Diniz Marques
+- [João Augusto Do Nascimento](https://github.com/JoaoAN2)
+- [Allan Custódio Diniz Marques](https://github.com/L33tSh4rk)
 
 ## 💡 Sobre o Projeto
 
