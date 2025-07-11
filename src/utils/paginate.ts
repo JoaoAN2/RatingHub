@@ -9,7 +9,7 @@ export async function paginate<Model, WhereOptions>(
   const page = options.page ?? 1;
   const limit = options.limit ?? 10;
   const sortBy = options.sortBy;
-  const sortType = options.sortType ?? 'desc';
+  const sortType = options.sortType ?? 'asc';
   const totalResults = await modelDelegate.count({ where: filter });
   const findManyOptions: FindManyArgs<WhereOptions> = {
     where: filter,

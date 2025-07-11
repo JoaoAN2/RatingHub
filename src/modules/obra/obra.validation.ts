@@ -24,6 +24,7 @@ const getObras = {
       TiposObraEnum.EPISODIO
     ),
     sortBy: Joi.string(),
+    sortType: Joi.string().valid('asc', 'desc'),
     limit: Joi.number().integer(),
     page: Joi.number().integer()
   })

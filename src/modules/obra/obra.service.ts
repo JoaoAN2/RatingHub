@@ -2,6 +2,8 @@ import { Obra, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
 import prisma from "../../client";
 import ApiError from "../../utils/ApiError";
+import { paginate } from "../../utils/paginate";
+import { IPaginate } from "../../types/paginate";
 
 const createObra = async (addObra: Omit<Obra, "id_obra">): Promise<Obra> => {
   return prisma.obra.create({
@@ -24,21 +26,8 @@ const queryObras = async <Key extends keyof Obra>(
     "sinopse",
     "tipo_obra",
   ] as Key[]
-): Promise<Pick<Obra, Key>[]> => {
-  const page = options.page ?? 1;
-  const limit = options.limit ?? 10;
-  const sortBy = options.sortBy;
-  const sortType = options.sortType ?? "desc";
-
-  const obras = await prisma.obra.findMany({
-    where: filter,
-    select: keys.reduce((obj, k) => ({ ...obj, [k]: true }), {}),
-    skip: (page - 1) * limit,
-    take: limit,
-    orderBy: sortBy ? { [sortBy]: sortType } : undefined,
-  });
-
-  return obras as Pick<Obra, Key>[];
+): Promise<IPaginate<Pick<Obra, keyof Obra>[]>> => {
+  return await paginate(prisma.obra, options, filter, keys);
 };
 
 const getObraById = async <Key extends keyof Obra>(
